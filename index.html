@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Neelarjun Engineering College | NEC | Home</title>
   <meta name="description" content="Neelarjun Engineering College Homepage. Visit Here For Admission in Diploma CTEVT. College is Present in Janakpur. Visit for Admission in Computer Science"/>
-
+  
   <!-- Favicon -->
   <link rel="shortcut icon" href="assets/img/logo.png" type="image/x-icon">
 
@@ -266,7 +266,11 @@
     </div>
   </section>
   <!-- End service  -->
-
+  <div style="width: 100%; margin:auto;">
+    <h2 style="text-align: center;">Notice Board</h2>
+    <ul class="w3-ul w3-card-4" style="width:80%; padding: 25px;  margin:auto;" id="noticeboard">
+    </ul>
+  </div>
   <!-- Start about us -->
   <section id="mu-about-us">
     <div class="container">
@@ -335,6 +339,7 @@
     </div>
   </section>
   <!-- End about us -->
+
 
   <!-- Start about us counter -->
   <section id="mu-abtus-counter">
@@ -814,7 +819,55 @@
     <!-- end footer bottom -->
   </footer>
   <!-- End footer -->
-
+ <style>
+   .w3-card-4,.w3-hover-shadow:hover{box-shadow:0 4px 10px 0 rgba(0,0,0,0.2),0 4px 20px 0 rgba(0,0,0,0.19)}
+   .w3-ul.w3-hoverable li:hover{background-color:#ccc}
+ </style>
+    
+    <script type="text/javascript">
+    const api_url = "https://nellarjun.herokuapp.com/getnotice";
+      
+    // Defining async function
+    async function getapi(url) {
+        // Storing response
+        const response = await fetch(url);
+        
+        // Storing data in form of JSON
+        var data = await response.json();
+        if (response) {
+            console.log("got data")
+        }
+        show(data);
+    }
+    function show(data){
+      tab=``;
+        for(i=0;i<data.data.length;i++){
+          title=data.data[i].fields.title;
+          text=data.data[i].fields.text;
+          if(data.data[i].fields.link)
+          link=data.data[i].fields.link;
+          else
+          link=""
+          if(link!=""){
+            template=`<a href=`+link+` target="_blank"><li>
+            <strong class="d-block text-gray-dark">`+title+`</strong><br>
+            `+text+`<hr>
+         </li></a>`
+          }
+          else{
+            template=`<li>
+            <strong class="d-block text-gray-dark">`+title+`</strong><br>
+            `+text+`<hr>
+         </li>`
+          }
+       
+          tab+=template;
+        }
+        document.getElementById("noticeboard").innerHTML=tab;
+      console.log(data);
+    }
+    getapi(api_url);
+    </script>
   <!-- jQuery library -->
   <script src="assets/js/jquery.min.js"></script>
   <!-- Include all compiled plugins (below), or include individual files as needed -->
